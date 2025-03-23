@@ -7,7 +7,7 @@
 #include <vector>
 #include <string>
 
-# TODO make a header file for this class
+
 #include "LinearSystem.hpp"
 
 /**
@@ -16,7 +16,7 @@
  */
 
 
-LinearSystem(
+LinearSystem::LinearSystem(
     const int physical_dim, 
     const int system_order, 
     const int num_targets, 
@@ -54,7 +54,7 @@ LinearSystem(
     
     }
 
-void SetStateTransitionMatrix(double dt) {
+void LinearSystem::SetStateTransMatrix(double dt) {
     /**
      * The structure of the state transition matrix depends on the physical 
      * dimensions, the order of the system dynamics, and the number of 
