@@ -25,6 +25,12 @@ Thumbs.db
 *.swp
 *.swo
 
+# Ignore CMake files
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+
 # Ignore IDE specific files
 .vscode/
 .idea/
@@ -34,3 +40,6 @@ LinearSystem.dSYM/
 
 # Ignore TODO.md file
 TODO.md
+
+# Ignore Google Test build artifacts (if applicable)
+googletest/build/
