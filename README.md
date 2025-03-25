@@ -1,7 +1,9 @@
 # Linear System 
 
+# Code is under development,  Not ready for use. 
+
 The LinearSystem class is intended to serve two types of application: 
-discrete sequential state estimation (DSE), and batched linear regression (BLR). These standard problem types were used to guide the development of LinearSystem, but of course the user has complete contol of how the class outputs are utilized. 
+discrete sequential state estimation (DSE), and batched linear regression (BLR). These standard problem types were used to guide the development of LinearSystem, but of course the user has complete contol of how the system matrices are utilized. 
  
 ## Assumptions
 For DSE, observations are assumed to represent measurements of a state variable at a single epoch of time. Observations are associated to targets and each 
