@@ -10,9 +10,16 @@ include_directories(include)
 # Add source files
 add_library(LinearSystem src/LinearSystem.cpp src/StateTransitionMatrix.cpp)
 
-# Add Google Test
+# Find Google Test
 find_package(GTest REQUIRED)
-include_directories(${GTEST_INCLUDE_DIRS})
+if (GTest_FOUND)
+    include_directories(${GTEST_INCLUDE_DIRS})
+    link_directories(${GTEST_LIBRARIES_DIR})
+else()
+    # Fallback to manually specifying paths if GTest is not found
+    include_directories(/opt/homebrew/opt/googletest/include)
+    link_directories(/opt/homebrew/opt/googletest/lib)
+endif()
 
 # Add unit tests
 add_executable(UnitTests UnitTest/test_LinearSystem.cpp)
