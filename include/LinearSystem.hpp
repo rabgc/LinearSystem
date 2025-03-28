@@ -37,6 +37,19 @@ public:
     void setStateTransMat(double dt);
 
     // Accessor methods 
+    /**
+     * @brief Get the length of the state vector for a single target.
+     * @return int Length of the state vector for a single target.
+     */
+    int getTargetStateLen() const { return target_state_len; }
+    
+    /**
+     * @brief Get the total length of the agglomerate state vector.
+     * @return int Total length of the agglomerate state vector.
+     */
+    int getAgglomerateStateLen() const { return agglomerate_state_len; }
+
+
     int getNumTargets() const { return num_targets_; }
     int getPhysicalDim() const { return physical_dim_; }
     int getSystemOrder() const { return system_order_; }
@@ -44,6 +57,7 @@ public:
     bool isEquatingTargets() const { return equate_targets_; }
     Eigen::MatrixXd getStateTransMatrix() const { return S; }
 
+    
     
     // void setDesignMat();  // bias only 
     // void setProcessNoiseCovMat(double w);
