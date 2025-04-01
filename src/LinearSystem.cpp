@@ -43,7 +43,7 @@ LinearSystem::LinearSystem(
         agglomerate_state_len = target_state_len * num_targets_;
         obs_scope = observe_rates_ ? physical_dim_ * 2 : physical_dim_;
         obs_len = physical_dim_ * obs_scope * num_targets_;
-        
+
 }
 
 void LinearSystem::setStateTransMat(double dt) {
@@ -53,4 +53,26 @@ void LinearSystem::setStateTransMat(double dt) {
     );
 }
 
+void LinearSystem::setDesignMat() {
+    F = DesignMatrix::create(
+        physical_dim_, system_order_, num_targets_, equate_targets_, 
+        observe_rates_
+    );
+}
+
+// Getters 
+//
+Eigen::MatrixXd LinearSystem::getStateTransMat() const {
+    return S;
+}
+Eigen::MatrixXd LinearSystem::getDesignMat() const {
+    return F;
+}
+
+int LinearSystem::getNumTargets() const { return num_targets_; }
+int LinearSystem::getObsScope() const { return obs_scope; }
+int LinearSystem::getPhysicalDim() const { return physical_dim_; }
+int LinearSystem::getSystemOrder() const { return system_order_; }
+bool LinearSystem::isObservingRates() const { return observe_rates_; }
+bool LinearSystem::isEquatingTargets() const { return equate_targets_; }
 

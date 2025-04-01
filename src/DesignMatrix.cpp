@@ -6,7 +6,9 @@ Eigen::MatrixXd DesignMatrix::create(
 ) {
     // Simplest case: observe_rates = false and equate_targets = false
     if (!observe_rates && !equate_targets) {
-        return Eigen::MatrixXd::Identity(physical_dim * num_targets, physical_dim * num_targets);
+        return Eigen::MatrixXd::Identity(
+            physical_dim * num_targets, physical_dim * num_targets
+        );
     }
 
     // Placeholder for other cases (to be implemented later)

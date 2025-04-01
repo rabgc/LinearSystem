@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include "StateTransitionMatrix.hpp"
+#include "DesignMatrix.hpp"
 
 /**
  * @class LinearSystem
@@ -28,6 +29,9 @@ public:
         bool observe_rates = false, bool equate_targets = false
     );
 
+    //
+    // Setters
+    //
     /**
      * @brief Set the state transition matrix S based on the physical 
      * dimensions, system order, number of targets, and time step.
@@ -36,7 +40,20 @@ public:
      */
     void setStateTransMat(double dt);
 
-    // Accessor methods 
+    /**
+     * @brief Set the design matrix F based on the physical dimensions, 
+     * system order, number of targets, and whether to equate targets.
+     */
+    void setDesignMat();
+
+    // void setProcessNoiseCovMat(double w);
+    // void setObsNoiseCovMat(double sigma);
+    // void setAprStateCovMat(double sig0);
+    // void setAprStateVec(double x0);
+
+    //
+    // Getters
+    //
     /**
      * @brief Get the length of the state vector for a single target.
      * @return int Length of the state vector for a single target.
@@ -49,30 +66,32 @@ public:
      */
     int getAgglomerateStateLen() const { return agglomerate_state_len; }
 
-
-    int getNumTargets() const { return num_targets_; }
-    int getPhysicalDim() const { return physical_dim_; }
-    int getSystemOrder() const { return system_order_; }
-    bool isObservingRates() const { return observe_rates_; }
-    bool isEquatingTargets() const { return equate_targets_; }
-    Eigen::MatrixXd getStateTransMatrix() const { return S; }
-
+    
+    int getNumTargets() const;
+    int getObsScope() const;
+    int getPhysicalDim() const;
+    int getSystemOrder() const;
+    bool isObservingRates() const;
+    bool isEquatingTargets() const;
+    Eigen::MatrixXd getStateTransMat() const;
+    Eigen::MatrixXd getDesignMat() const;
     
     
-    // void setDesignMat();  // bias only 
-    // void setProcessNoiseCovMat(double w);
-    // void setObsNoiseCovMat(double sigma);
-    // void setAprStateCovMat(double sig0);
-    // void setAprStateVec(double x0);
 
-    // Methods for adding features to the deign matrix 
+    // Member functions 
+    //
+    /**
+     * extend the deign matrix 
+     */
     // void addFeature(const Feature& feature); // Accepts any derived Feature class
 
-    // Methods for whitening the system 
+    /**
+     * Whitenthe system 
+     */
 
     // Prints
 
-    // Get mapping
+    // Index maps  
     
     private:
 
