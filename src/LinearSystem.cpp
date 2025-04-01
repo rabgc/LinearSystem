@@ -26,10 +26,24 @@ LinearSystem::LinearSystem(
     system_order_(system_order), 
     observe_rates_(observe_rates),
     equate_targets_(equate_targets) {
-    target_state_len = physical_dim_ * system_order_;
-    agglomerate_state_len = target_state_len * num_targets_;
-    obs_scope = observe_rates_ ? physical_dim_ * 2 : physical_dim_;
-    obs_len = physical_dim_ * obs_scope * num_targets_;
+
+        // Validate input parameters
+        if (observe_rates_ && system_order_ < 2) {
+            throw std::invalid_argument(
+                "observe_rates=true is only valid if system_order >= 2"
+            );
+        }
+        if (system_order_ < 1) {
+            throw std::invalid_argument(
+                "system_order must be at least 1"
+            );
+        }
+        // Compute derived parameters
+        target_state_len = physical_dim_ * system_order_;
+        agglomerate_state_len = target_state_len * num_targets_;
+        obs_scope = observe_rates_ ? physical_dim_ * 2 : physical_dim_;
+        obs_len = physical_dim_ * obs_scope * num_targets_;
+        
 }
 
 void LinearSystem::setStateTransMat(double dt) {

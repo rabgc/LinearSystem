@@ -11,8 +11,7 @@ target is represented by its own state vector.  The parameters of the state
 vector depend on the physical dimensions of the system and the order of the 
 system dynamics equation. The *state* typically comprises positional 
 coordinates of the targets and the target's velocity. The *observations* typically consist of target position estimates, but may 
-also include velocity estimates. Higher order dynamics are not supported in 
-the current implementation, but may be added in the future.  
+also include velocity estimates. 
 
 A state transition matrix can be created to propagate the state vector 
 from one epoch to the next for use in a Kalman filter or similar sequential 

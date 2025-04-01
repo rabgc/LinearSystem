@@ -8,7 +8,12 @@ set(CMAKE_CXX_STANDARD 17)
 include_directories(include)
 
 # Add source files
-add_library(LinearSystem src/LinearSystem.cpp src/StateTransitionMatrix.cpp)
+add_library(
+    LinearSystem 
+    src/LinearSystem.cpp 
+    src/StateTransitionMatrix.cpp
+    src/DesignMatrix.cpp 
+)
 
 # Find Google Test
 find_package(GTest REQUIRED)
