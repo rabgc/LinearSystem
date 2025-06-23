@@ -4,9 +4,10 @@
 
 #include <Eigen/Dense>
 
-class ProcessNoiseCov {
+class ProcessNoiseCov
+{
 public:
-    static Eigen::MatrixXd create(int state_len, double noise_level);
+  static Eigen::MatrixXd create(int state_len, double noise_level);
 };
 
 #endif // PROCESSNOISECOV_HPP

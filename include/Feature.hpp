@@ -3,12 +3,13 @@
 
 #include <Eigen/Dense>
 
-class Feature {
+class Feature
+{
 public:
-    virtual ~Feature() = default;
+  virtual ~Feature() = default;
 
-    // Pure virtual method to add features to the design matrix
-    virtual void addFeature(Eigen::MatrixXd& designMatrix) const = 0;
+  // Pure virtual method to add features to the design matrix
+  virtual void addFeature(Eigen::MatrixXd &designMatrix) const = 0;
 };
 
 #endif // FEATURE_HPP
