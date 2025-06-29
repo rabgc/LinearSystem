@@ -28,10 +28,7 @@ public:
       int num_targets,
       int physical_dim = 1, int system_order = 1,
       bool observe_rates = false, bool equate_targets = false);
-
-  //
-  // Setters
-  //
+  
   /**
    * @brief Set the state transition matrix S based on the physical
    * dimensions, system order, number of targets, and time step.
@@ -51,10 +48,7 @@ public:
   // void setAprStateCovMat(double sig0);
   // void setAprStateVec(double x0);
 
-  //
-  // Getters
-  //
-  /**
+  /** State vector length
    * @brief Get the length of the state vector for a single target.
    * @return int Length of the state vector for a single target.
    */
@@ -78,7 +72,7 @@ public:
   // Member functions
   //
   /**
-   * extend the deign matrix
+   * extend the design matrix
    */
   // void addFeature(const Feature& feature); // Accepts any derived Feature class
 

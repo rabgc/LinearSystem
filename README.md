@@ -15,13 +15,15 @@ from one epoch to the next for use in a sequential estimator. LinearSystem could
 
 ## Assumptions for BLR
 LinearSystem may also be used to build the design matrix for BLR models, in 
-which all data are to be used simultaneously to solve for model parameters. 
+which all data are to be used simultaneously to solve for a vector of model parameters. 
 For this application, set equate_targets=true to enfore the condition that all 
 data points represent redundant measurements of the same target variable. 
 The num_targets then determines the length of the data vector. All other 
 inputs should assume default values (where defualts are provided). In this case, the design matrix is built from a bias column, and the state vector is simply the model parameter vector associated to the target variable. The dimensions of the parameter vector depend on how many additional feature columns are added to the design matrix. The target-state vector terminology is retained throughout LinearSystem for consistency, even though the regression 
-variables may not represent physical states. LinearSystem can also construct 
-regularization matrices. 
+variables may not represent physical states. 
+
+## Regularization
+LinearSystem can also construct regularization matrices for Tihkonov or ridge regression. 
 
 ## Noise and model estimate covariance matrices 
 The LinearSystem class also provides methods for generating process and measurement noise covariance matrices, as well as the a priori state covariance and state estimate.
