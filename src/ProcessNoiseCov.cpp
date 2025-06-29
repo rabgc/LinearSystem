@@ -1,9 +1,9 @@
-// ProcessNoiseCov.cpp
 #include "ProcessNoiseCov.hpp"
+#include <Eigen/Dense>
 
-Eigen::MatrixXd ProcessNoiseCov::create(int state_len, double noise_level)
+Eigen::MatrixXd ProcessNoiseCov::create(int idim, double noise_level)
 {
-  Eigen::MatrixXd Q = Eigen::MatrixXd::Identity(state_len, state_len);
-  Q *= noise_level; // Scale by noise level
+  Eigen::MatrixXd Q = Eigen::MatrixXd::Identity(idim, idim) * noise_level;
+  
   return Q;
 }

@@ -1,4 +1,4 @@
-// ProcessNoiseCov.hpp
+
 #ifndef PROCESSNOISECOV_HPP
 #define PROCESSNOISECOV_HPP
 
@@ -7,7 +7,7 @@
 class ProcessNoiseCov
 {
 public:
-  static Eigen::MatrixXd create(int state_len, double noise_level);
+  static Eigen::MatrixXd create(int idim, double noise_level);
 };
 
 #endif // PROCESSNOISECOV_HPP

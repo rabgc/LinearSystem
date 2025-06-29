@@ -15,6 +15,7 @@ endif()
 
 # Include directories
 include_directories(include)
+include_directories(/opt/homebrew/include/eigen3) 
 
 # Find required libraries
 find_package(GTest REQUIRED)
@@ -27,6 +28,7 @@ add_library(
     src/LinearSystem.cpp 
     src/StateTransitionMatrix.cpp
     src/DesignMatrix.cpp 
+    src/ProcessNoiseCov.cpp
 )
 
 # Add unit tests

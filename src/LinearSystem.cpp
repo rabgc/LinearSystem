@@ -3,6 +3,7 @@
  * Created on March 23, 2025, 7:00 AM
  */
 #include "LinearSystem.hpp"
+#include "ProcessNoiseCov.hpp"
 #include <iostream>
 #include <Eigen/Dense>
 #include <vector>
@@ -14,18 +15,12 @@
  */
 
 LinearSystem::LinearSystem(
-    const int num_targets,
-    const int physical_dim,
-    const int system_order,
-    const bool observe_rates,
-    const bool equate_targets) : num_targets_(num_targets),
-                                 physical_dim_(physical_dim),
-                                 system_order_(system_order),
-                                 observe_rates_(observe_rates),
-                                 equate_targets_(equate_targets)
+    const int num_targets, const int physical_dim, const int system_order,
+    const bool observe_rates, const bool equate_targets) : 
+      num_targets_(num_targets), physical_dim_(physical_dim), system_order_(system_order),
+      observe_rates_(observe_rates), equate_targets_(equate_targets)
 {
 
-  // Validate input parameters
   if (observe_rates_ && system_order_ < 2)
   {
     throw std::invalid_argument(
@@ -36,7 +31,7 @@ LinearSystem::LinearSystem(
     throw std::invalid_argument(
         "system_order must be at least 1");
   }
-  // Compute derived parameters
+  
   target_state_len = physical_dim_ * system_order_;
   agglomerate_state_len = target_state_len * num_targets_;
   obs_scope = observe_rates_ ? physical_dim_ * 2 : physical_dim_;
@@ -45,10 +40,10 @@ LinearSystem::LinearSystem(
 
 void LinearSystem::setStateTransMat(double dt)
 {
-  // Delegate creation of state transition to StateTransitionMatrix
   S = StateTransitionMatrix::create(
       physical_dim_, system_order_, num_targets_, dt);
 }
+Eigen::MatrixXd LinearSystem::getStateTransMat() const { return S; }
 
 void LinearSystem::setDesignMat()
 {
@@ -56,17 +51,16 @@ void LinearSystem::setDesignMat()
       physical_dim_, system_order_, num_targets_, equate_targets_,
       observe_rates_);
 }
+Eigen::MatrixXd LinearSystem::getDesignMat() const { return F; }
 
-// Getters
-//
-Eigen::MatrixXd LinearSystem::getStateTransMat() const
-{
-  return S;
+void LinearSystem::setProcessNoiseCov(double noise_level) 
+{ 
+  Q = ProcessNoiseCov::create(agglomerate_state_len, noise_level);
 }
-Eigen::MatrixXd LinearSystem::getDesignMat() const
-{
-  return F;
-}
+  
+void LinearSystem::setProcessNoiseCov(const Eigen::MatrixXd& Q_) { Q = Q_; }
+
+Eigen::MatrixXd LinearSystem::getProcessNoiseCov() const { return Q; }
 
 int LinearSystem::getNumTargets() const { return num_targets_; }
 int LinearSystem::getObsScope() const { return obs_scope; }

@@ -18,56 +18,39 @@ public:
   /**
    * @brief Constructor for the LinearSystem class.
    *
-   * @param num_targets Number of targets in the system.
-   * @param physical_dim Number of physical dimensions (default is 1).
-   * @param system_order Order of the system dynamics (default is 1).
-   * @param observe_rates True if rates are observed (default is false).
-   * @param equate_targets True if all targets share a common bias (default is false).
+   * @param num_targets Number of targets
+   * @param physical_dim Number of physical dimensions
+   * @param system_order Dynamical system 
+   * @param observe_rates True if rates are observed
+   * @param equate_targets True if targets share a common bias
    */
-  LinearSystem(
-      int num_targets,
-      int physical_dim = 1, int system_order = 1,
-      bool observe_rates = false, bool equate_targets = false);
+  LinearSystem(int num_targets, int physical_dim = 1, int system_order = 1,
+               bool observe_rates = false, bool equate_targets = false);
   
-  /**
-   * @brief Set the state transition matrix S based on the physical
-   * dimensions, system order, number of targets, and time step.
-   *
-   * @param dt Time step for the state transition matrix.
-   */
   void setStateTransMat(double dt);
-
-  /**
-   * @brief Set the design matrix F based on the physical dimensions,
-   * system order, number of targets, and whether to equate targets.
-   */
+  Eigen::MatrixXd getStateTransMat() const;
+  
   void setDesignMat();
+  Eigen::MatrixXd getDesignMat() const;
 
-  // void setProcessNoiseCovMat(double w);
+  void setProcessNoiseCov(double noise_level);
+  void setProcessNoiseCov(const Eigen::MatrixXd& Q);
+  Eigen::MatrixXd getProcessNoiseCov() const;
+
   // void setObsNoiseCovMat(double sigma);
   // void setAprStateCovMat(double sig0);
   // void setAprStateVec(double x0);
 
-  /** State vector length
-   * @brief Get the length of the state vector for a single target.
-   * @return int Length of the state vector for a single target.
-   */
+
   int getTargetStateLen() const { return target_state_len; }
-
-  /**
-   * @brief Get the total length of the agglomerate state vector.
-   * @return int Total length of the agglomerate state vector.
-   */
   int getAgglomerateStateLen() const { return agglomerate_state_len; }
-
   int getNumTargets() const;
   int getObsScope() const;
   int getPhysicalDim() const;
   int getSystemOrder() const;
   bool isObservingRates() const;
   bool isEquatingTargets() const;
-  Eigen::MatrixXd getStateTransMat() const;
-  Eigen::MatrixXd getDesignMat() const;
+  
 
   // Member functions
   //
@@ -85,60 +68,17 @@ public:
   // Index maps
 
 private:
-  // Definitional parameters supplied by the user
+  
+  int num_targets_;     // Number of targets
+  int physical_dim_;    // Number of physical dimensions 
+  int system_order_;    // System order 
+  bool observe_rates_;  // True if rates are observed
+  bool equate_targets_; // True if targets share a common bias 
 
-  /**
-   * @brief Number of targets in the system.
-   */
-  int num_targets_;
-
-  /**
-   * @brief Number of physical dimensions (e.g., 3 for x, y, z).
-   */
-  int physical_dim_;
-
-  /**
-   * @brief Order of the system dynamics (1 for position, 2 for position
-   * and velocity).
-   */
-  int system_order_;
-
-  /**
-   * @brief True if rates (e.g., velocities) are observed.
-   */
-  bool observe_rates_;
-
-  /**
-   * @brief True if all targets share a common bias.
-   */
-  bool equate_targets_;
-
-  // Derived parameters
-
-  /**
-   * @brief Length of the state vector for a single target.
-   *
-   * Each target has a state vector with length equal to the physical
-   * dimensions times the order of the system dynamics.
-   */
-  int target_state_len;
-
-  /**
-   * @brief Total length of the agglomerate state vector.
-   *
-   * The total length of the agglomerate state vector is equal to the
-   * number of targets times the length of each target state vector.
-   */
-  int agglomerate_state_len;
-
-  /**
-   * @brief Scope of the observation vector.
-   *
-   * `obs_scope` equals 3 if observing position only (x, y, z),
-   * or 6 if observing position and velocity (x, y, z, u, v, w).
-   */
-  int obs_scope;
-
+  int target_state_len;      // State vector length per target 
+  int agglomerate_state_len; // Total state vector length
+  int obs_scope;             // e.g., 3 (x, y, x), or 6 (x, y, z, u, v, w)
+  
   /**
    * @brief Length of the observation vector.
    *
@@ -153,37 +93,13 @@ private:
    */
   int obs_len;
 
-  // System matrices
+  Eigen::MatrixXd S; // State transition
+  Eigen::MatrixXd F; // Design (features) matrix
+  Eigen::MatrixXd Q; // Process noise covariance 
+  Eigen::MatrixXd R; // Measurement noise covariance 
+  Eigen::MatrixXd P; // State covariance 
+  Eigen::VectorXd x; // state vector 
 
-  /**
-   * @brief State transition matrix.
-   */
-  Eigen::MatrixXd S;
-
-  /**
-   * @brief Design matrix (features).
-   */
-  Eigen::MatrixXd F;
-
-  /**
-   * @brief Process noise covariance matrix.
-   */
-  Eigen::MatrixXd Q;
-
-  /**
-   * @brief Measurement noise covariance matrix.
-   */
-  Eigen::MatrixXd R;
-
-  /**
-   * @brief A priori state covariance matrix.
-   */
-  Eigen::MatrixXd P;
-
-  /**
-   * @brief A priori state estimate vector.
-   */
-  Eigen::VectorXd x;
 };
 
 #endif // LINEARSYSTEM_HPP
