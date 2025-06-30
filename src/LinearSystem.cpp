@@ -54,7 +54,6 @@ Eigen::MatrixXd LinearSystem::getDesignMat() const { return F; }
 
 void LinearSystem::setProcessNoiseCov(double variance) 
 { 
-  std::cout << agglomerate_state_len << " " << variance << std::endl;
   Q = ProcessNoiseCov::create(agglomerate_state_len, variance);
 }
 void LinearSystem::setProcessNoiseCov(const Eigen::MatrixXd& Q_) { Q = Q_; }
