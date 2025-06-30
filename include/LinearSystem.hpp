@@ -6,6 +6,7 @@
 #include <string>
 #include "StateTransitionMatrix.hpp"
 #include "DesignMatrix.hpp"
+#include "ProcessNoiseCov.hpp"
 
 /**
  * @class LinearSystem
@@ -33,7 +34,7 @@ public:
   void setDesignMat();
   Eigen::MatrixXd getDesignMat() const;
 
-  void setProcessNoiseCov(double noise_level);
+  void setProcessNoiseCov(double variance);
   void setProcessNoiseCov(const Eigen::MatrixXd& Q);
   Eigen::MatrixXd getProcessNoiseCov() const;
 
@@ -42,7 +43,7 @@ public:
   // void setAprStateVec(double x0);
 
 
-  int getTargetStateLen() const { return target_state_len; }
+  int getTargetStateLen() const { return state_len_per_target; }
   int getAgglomerateStateLen() const { return agglomerate_state_len; }
   int getNumTargets() const;
   int getObsScope() const;
@@ -75,7 +76,7 @@ private:
   bool observe_rates_;  // True if rates are observed
   bool equate_targets_; // True if targets share a common bias 
 
-  int target_state_len;      // State vector length per target 
+  int state_len_per_target;   // State vector length per target 
   int agglomerate_state_len; // Total state vector length
   int obs_scope;             // e.g., 3 (x, y, x), or 6 (x, y, z, u, v, w)
   

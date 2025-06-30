@@ -3,7 +3,6 @@
  * Created on March 23, 2025, 7:00 AM
  */
 #include "LinearSystem.hpp"
-#include "ProcessNoiseCov.hpp"
 #include <iostream>
 #include <Eigen/Dense>
 #include <vector>
@@ -32,8 +31,8 @@ LinearSystem::LinearSystem(
         "system_order must be at least 1");
   }
   
-  target_state_len = physical_dim_ * system_order_;
-  agglomerate_state_len = target_state_len * num_targets_;
+  state_len_per_target = physical_dim_ * system_order_;
+  agglomerate_state_len = state_len_per_target * num_targets_;
   obs_scope = observe_rates_ ? physical_dim_ * 2 : physical_dim_;
   obs_len = physical_dim_ * obs_scope * num_targets_;
 }
@@ -53,11 +52,11 @@ void LinearSystem::setDesignMat()
 }
 Eigen::MatrixXd LinearSystem::getDesignMat() const { return F; }
 
-void LinearSystem::setProcessNoiseCov(double noise_level) 
+void LinearSystem::setProcessNoiseCov(double variance) 
 { 
-  Q = ProcessNoiseCov::create(agglomerate_state_len, noise_level);
+  std::cout << agglomerate_state_len << " " << variance << std::endl;
+  Q = ProcessNoiseCov::create(agglomerate_state_len, variance);
 }
-  
 void LinearSystem::setProcessNoiseCov(const Eigen::MatrixXd& Q_) { Q = Q_; }
 
 Eigen::MatrixXd LinearSystem::getProcessNoiseCov() const { return Q; }

@@ -4,26 +4,30 @@ Eigen::MatrixXd DesignMatrix::create(
     int physical_dim, int system_order, int num_targets,
     bool equate_targets, bool observe_rates)
 {
-  
+
   if (!observe_rates && !equate_targets)
   {
-    return Eigen::MatrixXd::Identity(
-        physical_dim * num_targets, physical_dim * system_order);
+
+    int target_len = num_targets * physical_dim;
+    int state_len = num_targets * physical_dim * system_order;
+    Eigen::MatrixXd F = Eigen::MatrixXd::Zero(target_len, state_len);
+    Eigen::MatrixXd I = Eigen::MatrixXd::Identity(physical_dim, physical_dim);
+
+    for (int t = 0; t < num_targets; ++t)
+    {
+      int row = t * physical_dim;
+      int col = t * physical_dim * system_order;
+      F.block(row, col, physical_dim, physical_dim) = I;
+    }
+    return F;
+
   }
-  
+
   if (observe_rates && !equate_targets)
   {
-    int rows = 2 * physical_dim * num_targets;
-    int cols = physical_dim * system_order;
-    Eigen::MatrixXd F_ = Eigen::MatrixXd::Zero(rows, cols);
-    Eigen::MatrixXd Eye = Eigen::MatrixXd::Identity(cols, cols);
+    int state_len = system_order * physical_dim * num_targets;
+    return Eigen::MatrixXd::Identity(state_len, state_len);
 
-    for (int t = 0; t < num_targets; ++t) {
-        // Each block gets a physical_dim position tuple and velocity tuple
-        int row_offset = t * 2 * physical_dim;
-        F_.block(row_offset, 0, 2 * physical_dim, cols) = Eye;
-    }
-    return F_;
   }
 
   // Placeholder for other cases (to be implemented later)
