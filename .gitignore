@@ -43,3 +43,6 @@ TODO.md
 
 # Ignore Google Test build artifacts (if applicable)
 googletest/build/
+
+# Ignore cached clangd index
+.cache/clangd/index/
